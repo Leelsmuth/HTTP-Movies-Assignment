@@ -2,27 +2,23 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Input, TextArea, Button, Form } from "semantic-ui-react";
 
+const initialData = {
+  id: "",
+  title: "",
+  director: "",
+  metascore: "",
+  stars: []
+};
+
 const UpdateMovie = props => {
-  const [movie, setMovie] = useState({
-    id: "",
-    title: "",
-    director: "",
-    metascore: "",
-    stars: []
-  });
+  const [movie, setMovie] = useState(initialData);
 
   useEffect(() => {
     const id = props.match.params.id;
     axios
       .get(`http://localhost:5000/api/movies/${id}`)
       .then(res => {
-        setMovie({
-          id: id,
-          title: res.data.title,
-          director: res.data.director,
-          metascore: res.data.metascore,
-          stars: res.data.stars
-        });
+        setMovie(res.data);
       })
 
       .catch(err => console.log(err));
